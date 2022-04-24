@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     fclose(fileParameters);
     return (1);
   } else {
-    fscanf(fileParameters, "%f %f %d %d", &X, &T, &K, &M);
+    fscanf(fileParameters, "%f %f %d %d", &T, &X, &K, &M);
     fclose(fileParameters);
   }
 
@@ -44,8 +44,7 @@ int main(int argc, char **argv) {
 
   // Calculating
   for (k = rank; k <= K; k += size) {
-    int send = 0;
-    int recv = 0;
+    int send = 0, recv = 0;
     for (m = 1; m <= M; m++) {  
       if (rank == 0 && k == 0 && size > 1) {
         
@@ -65,7 +64,6 @@ int main(int argc, char **argv) {
           MPI_Isend((data + (k) * (M + 1) + 1 + send * n), n, MPI_FLOAT, (rank + 1) % size, k + 1, MPI_COMM_WORLD, &request);
           send++;
         }
-        
       }
     }
   }
