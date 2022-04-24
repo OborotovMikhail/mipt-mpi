@@ -5,8 +5,7 @@
 /*Write a program that measures the message transmission delay between
 two network nodes using MPI technology*/
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   int rank = 0, size = 0; // Rank of the process and world size
   double time = 0; // Time variable
 
