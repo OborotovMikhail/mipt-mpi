@@ -88,15 +88,18 @@ int main(int argc, char **argv) {
   }
 
   // Opening a file to store the result
-  FILE *fileOutput = fopen("output.txt", "w+");
+  FILE *fileOutput = fopen("data.txt", "w+");
   if (fileOutput == NULL) {
-    printf("Failed to open output file\n");
+    printf("Failed to open data output file\n");
     fclose(fileOutput);
     return (1);
   }
-
+  
   // Process with rank 0 is printing the result
   if(rank == 0){
+  	// Printing data array (matrix) dimentions
+  	fprintf(fileOutput, "%d %d ", K, M);
+  	// Print the data
     for(int k = 0;k <= K; k++) {
       for(int m = 0; m <= M; m++) {
         fprintf(fileOutput, "%.3g ", data[k * (M + 1) + m]);

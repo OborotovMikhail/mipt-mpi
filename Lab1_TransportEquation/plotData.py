@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 dimentions = 11
 
 # Opening file and reading data
-fileData = open('output.txt', 'r')
+fileData = open('data.txt', 'r')
 data = fileData.read()
 
 # Value array
-array = []
+dataArray = np.array([])
 num = ''
 
 # Reading chars to the array as floats
@@ -16,18 +16,23 @@ for char in data:
     if char != ' ':
         num += char
     else:
-        array.append(float(num))
+        dataArray = np.append(dataArray, float(num))
         num = ''
 
-t = [[i for i in range(1,dimentions + 1)] for i in range(dimentions)]
-x = [[i] * dimentions for i in range(1, dimentions + 1)]
+# Separating matrix dimentions (1st two elements) from the data array
+K = int(dataArray[0] + 1) # Time t dimention
+M = int(dataArray[1] + 1) # Coordinate x dimention
 
-# Reshaping data
-func = np.array(array)
-func = func.reshape((dimentions,dimentions))
+# Removing matrix dimentions from the data array and reshaping the array
+dataArray = np.delete(dataArray, [0, 1], None)
+dataArray = dataArray.reshape((K, M))
+
+# Time t and coordinate x
+t = [[i for i in range(1, K + 1)] for i in range(K)]
+x = [[i] * M for i in range(1, M + 1)]
 
 # Plotting
 fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.plot_surface(x, t, func, cmap='plasma')
+ax = fig.add_subplot(111, projection = '3d')
+ax.plot_surface(t, x, dataArray, cmap = 'plasma')
 plt.show()
