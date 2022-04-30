@@ -1,13 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-dimentions = 11
-
 # Opening file and reading data
 fileData = open('data.txt', 'r')
 data = fileData.read()
 
-# Value array
+# Data array
 dataArray = np.array([])
 num = ''
 
@@ -27,12 +25,23 @@ M = int(dataArray[1] + 1) # Coordinate x dimention
 dataArray = np.delete(dataArray, [0, 1], None)
 dataArray = dataArray.reshape((K, M))
 
-# Time t and coordinate x
-t = [[i for i in range(1, K + 1)] for i in range(K)]
-x = [[i] * M for i in range(1, M + 1)]
+# Generating time t and coordinate x grids
+t = np.array([[i for i in range(1, K + 1)] for i in range(K)])
+x = np.array([[i] * M for i in range(1, M + 1)])
+
+print(t)
+print(x)
 
 # Plotting
 fig = plt.figure()
 ax = fig.add_subplot(111, projection = '3d')
+
+#T, X = np.meshgrid(t, x)
+
 ax.plot_surface(t, x, dataArray, cmap = 'plasma')
+
+ax.set_xlabel('Label')
+ax.set_ylabel('Label')
+ax.set_zlabel('Label')
+
 plt.show()
