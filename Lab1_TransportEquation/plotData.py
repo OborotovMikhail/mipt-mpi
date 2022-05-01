@@ -26,17 +26,19 @@ dataArray = np.delete(dataArray, [0, 1], None)
 dataArray = dataArray.reshape((K, M))
 
 # Generating time t and coordinate x grids
-t = np.array([[i for i in range(1, K + 1)] for i in range(K)])
-x = np.array([[i] * M for i in range(1, M + 1)])
+t = np.array([[i for i in range(K)] for i in range(M)])
+x = np.array([[i] * K for i in range(M)])
 
+print('time:')
 print(t)
+print('x:')
 print(x)
 
 # Plotting
 fig = plt.figure()
 ax = fig.add_subplot(111, projection = '3d')
 
-#T, X = np.meshgrid(t, x)
+#tMesh, xMesh = np.meshgrid(t, x)
 
 ax.plot_surface(t, x, dataArray, cmap = 'plasma')
 
