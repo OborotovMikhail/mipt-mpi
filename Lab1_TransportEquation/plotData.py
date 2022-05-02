@@ -17,33 +17,32 @@ for char in data:
         dataArray = np.append(dataArray, float(num))
         num = ''
 
-# Separating matrix dimentions (1st two elements) from the data array
-K = int(dataArray[0] + 1) # Time t dimention
-M = int(dataArray[1] + 1) # Coordinate x dimention
+# Separating matrix dimentions (4 front elements) from the data array
+T = int(dataArray[0]) # Time limit
+X = int(dataArray[1]) # Coordinate limit
+K = int(dataArray[2] + 1) # Time t dimention (Number of time points)
+M = int(dataArray[3] + 1) # Coordinate x dimention (Number of coordinate points)
 
-# Removing matrix dimentions from the data array and reshaping the array
-dataArray = np.delete(dataArray, [0, 1], None)
-dataArray = dataArray.reshape((K, M))
+# Removing 4 front elements from the data array and reshaping the array
+dataArray = np.delete(dataArray, range(4), None)
+dataArray = dataArray.reshape(K, M)
 
-# Generating time t and coordinate x grids
-t = np.array([[i for i in range(K)] for i in range(M)])
-x = np.array([[i] * K for i in range(M)])
+tau = T / (K - 1) # Time step
+h = X / (M - 1) # Coordinate step
 
-print('time:')
-print(t)
-print('x:')
-print(x)
+# Creating time and coordinate mesh
+tValues = np.array(range(K)) * tau
+xValues = np.array(range(M)) * h
+tMesh, xMesh = np.meshgrid(xValues, tValues)
 
 # Plotting
 fig = plt.figure()
 ax = fig.add_subplot(111, projection = '3d')
 
-#tMesh, xMesh = np.meshgrid(t, x)
+ax.plot_surface(tMesh, xMesh, dataArray, cmap = 'plasma')
 
-ax.plot_surface(t, x, dataArray, cmap = 'plasma')
-
-ax.set_xlabel('Label')
-ax.set_ylabel('Label')
-ax.set_zlabel('Label')
+ax.set_xlabel('Coordinate, x')
+ax.set_ylabel('Time, t')
+ax.set_zlabel('Data')
 
 plt.show()

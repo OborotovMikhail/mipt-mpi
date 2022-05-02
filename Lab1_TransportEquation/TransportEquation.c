@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
   // Process with rank 0 is printing the result
   if(rank == 0){
   	// Printing data array (matrix) dimentions
-  	fprintf(fileOutput, "%d %d ", K, M);
+  	fprintf(fileOutput, "%.3f %.3f %d %d ", T, X, K, M);
   	// Print the data
     for(int k = 0;k <= K; k++) {
       for(int m = 0; m <= M; m++) {
