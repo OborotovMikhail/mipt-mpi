@@ -16,9 +16,9 @@ int main(int argc, char **argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank); // Getting process rank
   MPI_Comm_size(MPI_COMM_WORLD, &size); // Getting world size
 
-  MPI_Request request; // Request variable
+  double timeStart = MPI_Wtime(); // Starting time
 
-  double runTime = MPI_Wtime(); // Running time
+  MPI_Request request; // Request variable
 
   float X = 0, T = 0; // Coordinate x, and time t limits
   int K = 0, M = 0; // Data massive dimentions
@@ -99,7 +99,8 @@ int main(int argc, char **argv) {
   if(rank == 0){
   	// Printing data array (matrix) dimentions
   	fprintf(fileOutput, "%.3f %.3f %d %d ", T, X, K, M);
-  	// Print the data
+  	// Print the data (optional)
+  	/*
     for(int k = 0;k <= K; k++) {
       for(int m = 0; m <= M; m++) {
         fprintf(fileOutput, "%.3g ", data[k * (M + 1) + m]);
@@ -107,11 +108,19 @@ int main(int argc, char **argv) {
       }
       printf("\n");
     }
+    */
   }
 
   fclose(fileOutput); // Closing output file
 
   free(data); // Releasing allocated memory 
+
+  double timeEnd = MPI_Wtime(); // Starting time
+
+  // 1st process is printing elapsed time
+  if (rank == 0) {
+  	printf("Time elapsed: %f sec\n", timeEnd - timeStart);
+  }
   
   MPI_Finalize(); // Ending MPI
 

@@ -17,6 +17,8 @@ for char in data:
         dataArray = np.append(dataArray, float(num))
         num = ''
 
+fileData.close()
+
 # Separating matrix dimentions (4 front elements) from the data array
 T = int(dataArray[0]) # Time limit
 X = int(dataArray[1]) # Coordinate limit
