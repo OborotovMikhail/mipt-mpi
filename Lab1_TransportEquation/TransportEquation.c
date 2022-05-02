@@ -40,15 +40,13 @@ int main(int argc, char **argv) {
 
   int m = 0, k = 0, n = M / 2; // Indexes
 
-  conditionsInit(data, K, M, tau,h); // Initializing conditions
+  conditionsInit(data, K, M, tau, h); // Initializing conditions
 
   // Calculating
   for (k = rank; k <= K; k += size) {
     int send = 0, recv = 0;
     for (m = 1; m <= M; m++) {  
       if (rank == 0 && k == 0 && size > 1) {
-        
-        
         if (m == n * (send + 1)) {
           MPI_Isend((data + 1 + send * n),  n, MPI_FLOAT, (rank + 1) % size, k + 1, MPI_COMM_WORLD, &request);
           send++;
