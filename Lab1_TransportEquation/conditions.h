@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdio.h>
+#include <stdlib.h>
+
 // Condition function for coodrinate x
 // Returns the value of the U(x, 0) function
 float conditionX(float x);
