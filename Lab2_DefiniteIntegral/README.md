@@ -16,7 +16,8 @@ With the help of pthread, it is necessary to make a program that will calculate 
 
 Compile and execute the code
 ```
-TODO
+gcc definiteIntegral.c integrate.c function.c -lm
+./a.out
 ```
 
 [:arrow_up: Back to contents](#Contents)
