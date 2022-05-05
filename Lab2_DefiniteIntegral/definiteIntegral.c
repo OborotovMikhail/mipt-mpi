@@ -37,13 +37,16 @@ int main(int argc, char **argv) {
   int status; // Status variable
 
   // Creating and initializing thread arguments structure
-  threadArgs arguments[threadsNum];
+  // Also distributing the intervals between threads
+  threadArgs arguments[threadsNum]; // Creating thread argument structure
+  int stepsPerThread = stepsNum / threadsNum; // Number of steps per 1 thread
+  double xStep = (xMax - xMin) / stepsNum; // X step
   for (int i = 0; i < threadsNum; i++) {
     arguments[i].id = i; // Tread id
     arguments[i].func = &func; // Passing a pointer to function to be integrated
-    arguments[i].xMin = xMin;
-    arguments[i].xMax = xMax;
-    arguments[i].stepsNum = stepsNum;
+    arguments[i].xMin = xMin + xStep * i * stepsPerThread; // Lower limit for 1 thread
+    arguments[i].xMax = xMin + xStep * ((i + 1) * stepsPerThread); // Upper limit for 1 thread
+    arguments[i].stepsNum = stepsPerThread;
     arguments[i].integral = 0;
   }
 
@@ -113,10 +116,17 @@ int main(int argc, char **argv) {
   }
   printf("\n");
 
+  // Calculating result integral (sum of all threads)
+  double resultIntegral = 0;
+  for (int i = 0; i < threadsNum; i++) {
+    resultIntegral += arguments[i].integral;
+  }
+  printf("Resulting integral: %.15f\n", resultIntegral);
+  printf("\n");
 
   // Single-thread version
   double integral = integrate(func, xMin, xMax, stepsNum);
-  printf("Non-thread function\nIntegral: %.15f\nNumber of steps (intervals): %d\n", integral, stepsNum);
+  printf("Non-thread result\nIntegral: %.15f\nNumber of steps (intervals): %d\n", integral, stepsNum);
 
   return 0;
 }
