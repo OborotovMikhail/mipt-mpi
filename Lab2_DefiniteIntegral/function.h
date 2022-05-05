@@ -4,5 +4,9 @@
 #include <stdlib.h>
 #include <math.h>
 
+// A pointer to the "double func(double x)" function
+// Used in the thread argument structure
+typedef double (*funcPointer)(double);
+
 // A function to be integrated
 double func(double x);
