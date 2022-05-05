@@ -9,6 +9,7 @@ So, the integration steps must be dynamic*/
 #include <pthread.h>
 #include <unistd.h>
 #include <errno.h>
+#include <time.h>
 
 #include "function.h"
 #include "integrate.h"
@@ -51,6 +52,7 @@ int main(int argc, char **argv) {
   }
 
   // Creating threads
+  printf("Creating threads\n");
   for (int i = 0; i < threadsNum; i++) {
     printf("Thread %d - ", i);
 
@@ -77,6 +79,7 @@ int main(int argc, char **argv) {
   printf("\n");
 
   // Joining threads
+  printf("Joining threads\n");
   for (int i = 0; i < threadsNum; i++) {
     printf("Thread %d - ", i);
 
@@ -110,9 +113,11 @@ int main(int argc, char **argv) {
   printf("\n");
 
   // Printing results (integrals) from the threads
+  printf("Multi-thread results\n");
   for (int i = 0; i < threadsNum; i++) {
     printf("Thread %d - ", arguments[i].id);
-    printf("Calculated integral: %.15f\n", arguments[i].integral);
+    printf("Integral: %.15f - ", arguments[i].integral);
+    printf("Time: %.10f sec\n", (double)arguments[i].time);
   }
   printf("\n");
 
@@ -125,8 +130,16 @@ int main(int argc, char **argv) {
   printf("\n");
 
   // Single-thread version
-  double integral = integrate(func, xMin, xMax, stepsNum);
-  printf("Non-thread result\nIntegral: %.15f\nNumber of steps (intervals): %d\n", integral, stepsNum);
+  struct timespec timeStart, timeEnd; // Starting and ending time points
+  double timeElapsed; // Elapsed time variable
+  clock_gettime(CLOCK_MONOTONIC, &timeStart); // Getting start time
+  double integral = integrate(func, xMin, xMax, stepsNum); // Single-thread integral calculation
+  clock_gettime(CLOCK_MONOTONIC, &timeEnd); // Getting End time
+  timeElapsed = timeEnd.tv_sec - timeStart.tv_sec; // Converting time
+  timeElapsed += (timeEnd.tv_nsec - timeStart.tv_nsec) / 1000000000.0; // Converting time
+
+  printf("Single thread - Integral: %.15f - ", integral);
+  printf("Time: %.10f sec\n", timeElapsed);
 
   return 0;
 }

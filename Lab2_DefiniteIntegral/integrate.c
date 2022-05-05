@@ -14,6 +14,10 @@ double integrate(double func(double x), double xMin, double xMax, int stepsNum) 
 }
 
 void* integrateThread(void *arguments) {
+	struct timespec timeStart, timeEnd; // Starting and ending time points
+	double timeElapsed; // Elapsed time variable
+	clock_gettime(CLOCK_MONOTONIC, &timeStart); // Getting start time
+
 	threadArgs *args = (threadArgs*) arguments; // Changing argument structure type
 
 	double x, xStep;
@@ -25,6 +29,12 @@ void* integrateThread(void *arguments) {
 		x = args->xMin + i * xStep;
 		args->integral += (args->func(x) + args->func(x + xStep)) * xStep / 2;
 	}
+
+	clock_gettime(CLOCK_MONOTONIC, &timeEnd); // Getting End time
+
+	timeElapsed = timeEnd.tv_sec - timeStart.tv_sec; // Converting time
+	timeElapsed += (timeEnd.tv_nsec - timeStart.tv_nsec) / 1000000000.0; // Converting time
+	args->time = timeElapsed;
 
 	return(0); // Returning a value for the pthread_join to pick up
 }

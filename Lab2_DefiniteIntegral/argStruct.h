@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "function.h"
 
@@ -13,4 +14,5 @@ typedef struct threadArgs {
 	double xMax;
 	int stepsNum;
 	double integral; // The calculated integral (result)
+	double time; // Time of the calculation
 } threadArgs;
