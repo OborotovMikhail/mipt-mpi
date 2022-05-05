@@ -104,11 +104,19 @@ int main(int argc, char **argv) {
         printf("Error occurred when joining the thread\n");
     }
   }
+  printf("\n");
+
+  // Printing results (integrals) from the threads
+  for (int i = 0; i < threadsNum; i++) {
+    printf("Thread %d - ", arguments[i].id);
+    printf("Calculated integral: %.15f\n", arguments[i].integral);
+  }
+  printf("\n");
 
 
   // Single-thread version
   double integral = integrate(func, xMin, xMax, stepsNum);
-  printf("\nNon-thread function\nIntegral: %lf\nNumber of steps (intervals): %d\n", integral, stepsNum);
+  printf("Non-thread function\nIntegral: %.15f\nNumber of steps (intervals): %d\n", integral, stepsNum);
 
   return 0;
 }
