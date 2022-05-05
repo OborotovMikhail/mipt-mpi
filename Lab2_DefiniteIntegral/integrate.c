@@ -14,7 +14,6 @@ double integrate(double func(double x), double xMin, double xMax, int stepsNum) 
 
 void* integrateThread(void *arguments) {
 	threadArgs *args = (threadArgs*) arguments;
-	printf("I am thread, my id is %d\n", args->id); // Debug
 
 	return(0); // Returning a value for the pthread_join to pick up
 }

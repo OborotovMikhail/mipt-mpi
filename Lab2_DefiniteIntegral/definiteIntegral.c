@@ -7,6 +7,8 @@ So, the integration steps must be dynamic*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <unistd.h>
+#include <errno.h>
 
 #include "function.h"
 #include "integrate.h"
@@ -14,8 +16,6 @@ So, the integration steps must be dynamic*/
 
 #define SUCCESS 0
 #define ERROR_OPEN_PARAMETERS 1
-#define ERROR_CREATE_THREAD 2
-#define ERROR_JOIN_THREAD 3
 
 int main(int argc, char **argv) {
   float xMin, xMax; // Definite integral limits (set as a parameter)
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
   // Thread variables
   pthread_t threads[threadsNum]; // Thread id array
-  int status, status_addr; // Status variables
+  int status; // Status variable
 
   // Creating and initializing thread arguments structure
   threadArgs arguments[threadsNum];
@@ -49,29 +49,66 @@ int main(int argc, char **argv) {
 
   // Creating threads
   for (int i = 0; i < threadsNum; i++) {
+    printf("Thread %d - ", i);
+
     status = pthread_create(&threads[i], NULL, integrateThread, (void*) &arguments[i]);
-    if (status != SUCCESS) {
-      printf("Could not create thread with id %d\n", i);
-      exit(ERROR_CREATE_THREAD);
+
+    // Checking pthread create status
+    switch (status) {
+      case SUCCESS:
+        printf("The thread created successfully\n");
+        break;
+      case EAGAIN:
+        printf("Insufficient resources to create another thread\n");
+        break;
+      case EINVAL:
+        printf("Invalid settings in attr\n");
+        break;
+      case EPERM:
+        printf("No permission to set the scheduling policy and parameters specified in attr\n");
+        break;
+      default:
+        printf("Error occurred when creating the thread\n");
     }
-    printf("Successfully created thread %d\n", i); // Debug
   }
+  printf("\n");
 
   // Joining threads
   for (int i = 0; i < threadsNum; i++) {
-    status = pthread_join(threads[i], (void**)&status_addr);
-    /*
-    if (status != SUCCESS) {
-      printf("Could not join thread with id %d, status = %d\n", i, status);
-      exit(ERROR_JOIN_THREAD);
+    printf("Thread %d - ", i);
+
+    void *returnValue;
+    status = pthread_join(threads[i], &returnValue);
+
+    // Checking value returned by the thread
+    if (returnValue == PTHREAD_CANCELED)
+      printf("The thread was canceled - ");
+    else
+      printf("Returned value %d - ", (int)returnValue);
+
+    // Checking pthread join status
+    switch (status) {
+      case SUCCESS:
+        printf("The thread joined successfully\n");
+        break;
+      case EDEADLK:
+        printf("Deadlock detected\n");
+        break;
+      case EINVAL:
+        printf("The thread is not joinable\n");
+        break;
+      case ESRCH:
+        printf("No thread with given ID is found\n");
+        break;
+      default:
+        printf("Error occurred when joining the thread\n");
     }
-    */
-    printf("Successfully joined thread id %d, status_addr = %d\n", i, status_addr); // Debug
   }
+
 
   // Single-thread version
   double integral = integrate(func, xMin, xMax, stepsNum);
-  printf("Integral: %lf\nNumber of steps (intervals): %d\n", integral, stepsNum);
+  printf("\nNon-thread function\nIntegral: %lf\nNumber of steps (intervals): %d\n", integral, stepsNum);
 
   return 0;
 }
