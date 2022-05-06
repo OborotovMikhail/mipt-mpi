@@ -33,6 +33,16 @@ int main(int argc, char **argv) {
     fclose(fileParameters);
   }
 
+  // Printing parameters
+  printf("Integrating\n");
+  printf("From: %.15f\n", xMin);
+  printf("To: %.15f\n", xMax);
+  printf("Total intervals: %d\n", stepsNum);
+  printf("\n");
+  if (xMin == 0) {
+    xMin = 0.000000000000001;
+  }
+
   // Thread variables
   pthread_t threads[threadsNum]; // Thread id array
   int status; // Status variable
@@ -117,7 +127,7 @@ int main(int argc, char **argv) {
   for (int i = 0; i < threadsNum; i++) {
     printf("Thread %d - ", arguments[i].id);
     printf("Integral: %.15f - ", arguments[i].integral);
-    printf("Time: %.10f sec\n", (double)arguments[i].time);
+    printf("Time: %.10f sec\n", arguments[i].time);
   }
   printf("\n");
 
@@ -126,8 +136,6 @@ int main(int argc, char **argv) {
   for (int i = 0; i < threadsNum; i++) {
     resultIntegral += arguments[i].integral;
   }
-  printf("Resulting integral: %.15f\n", resultIntegral);
-  printf("\n");
 
   // Single-thread version
   struct timespec timeStart, timeEnd; // Starting and ending time points
@@ -138,8 +146,18 @@ int main(int argc, char **argv) {
   timeElapsed = timeEnd.tv_sec - timeStart.tv_sec; // Converting time
   timeElapsed += (timeEnd.tv_nsec - timeStart.tv_nsec) / 1000000000.0; // Converting time
 
+  // Printing results (both single and multi thread)
+  printf("RESULTS\n");
+  double worstTime = arguments[0].time;
+  for (int i = 0; i < threadsNum; i++) {
+    if (arguments[i].time > worstTime) {
+      worstTime = arguments[i].time;
+    }
+  }
   printf("Single thread - Integral: %.15f - ", integral);
   printf("Time: %.10f sec\n", timeElapsed);
+  printf("Multi thread  - Integral: %.15f - ", resultIntegral);
+  printf("Time: %.10f sec\n", worstTime);
 
   return 0;
 }
