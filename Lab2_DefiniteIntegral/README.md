@@ -18,9 +18,9 @@ With the help of pthread, it is necessary to make a program that will calculate 
 
 ## Calculation method
 
-![alt text](https://github.com/OborotovMikhail/MIPT_MPI/blob/main/Lab2_DefiniteIntegral/imageFormula.png?raw=true)
+![alt text](https://github.com/OborotovMikhail/MIPT_MPI/blob/main/Lab2_DefiniteIntegral/imageFormula.png?)
 
-![alt text](https://github.com/OborotovMikhail/MIPT_MPI/blob/main/Lab2_DefiniteIntegral/imageTrapezoid.png?raw=true)
+![alt text](https://github.com/OborotovMikhail/MIPT_MPI/blob/main/Lab2_DefiniteIntegral/imageTrapezoid.png?)
 
 [:arrow_up: Back to contents](#Contents)
 
