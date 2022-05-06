@@ -35,7 +35,7 @@ The illustration of trapezoidal rule:
 
 ___definiteIntegral.c___ is the main file. It creates and joins threads, which calculate the integral. Then it prints the result.
 
-___function.h___ and ___function.c___ contain the function to be integrated. The function can be changed in the function.c file. By default the function is sin(1/x).
+___function.h___ and ___function.c___ contain the function to be integrated and its derivative. The function can be changed in the function.c file. By default the function is sin(1/x).
 
 ___integrate.h___ and ___integrate.c___ contain methods that do the actual calculation of the integral. There are two methods: single-thread version and multi-thread version.
 

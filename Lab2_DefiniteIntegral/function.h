@@ -10,3 +10,7 @@ typedef double (*funcPointer)(double);
 
 // A function to be integrated
 double func(double x);
+
+// Derivative of the function to be integrated
+// (used for deciding the intervals of integration)
+double funcDerivative(double x);
