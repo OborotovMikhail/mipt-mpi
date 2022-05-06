@@ -100,7 +100,7 @@ int main(int argc, char **argv) {
     if (returnValue == PTHREAD_CANCELED)
       printf("The thread was canceled - ");
     else
-      printf("Returned value %d - ", (int)returnValue);
+      printf("Returned value %ld - ", (size_t)(off_t)returnValue);
 
     // Checking pthread join status
     switch (status) {
@@ -156,7 +156,7 @@ int main(int argc, char **argv) {
   }
   printf("Single thread - Integral: %.15f - ", integral);
   printf("Time: %.10f sec\n", timeElapsed);
-  printf("Multi thread  - Integral: %.15f - ", resultIntegral);
+  printf("Multi thread - Integral: %.15f - ", resultIntegral);
   printf("Time: %.10f sec\n", worstTime);
 
   return 0;
