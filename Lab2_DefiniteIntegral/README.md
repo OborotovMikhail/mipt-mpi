@@ -14,7 +14,7 @@
 
 ## Main task
 
-With the help of pthread, it is necessary to make a program that will calculate a definite integral of sin(1/x) function in the limit from a certain positive real number to some larger positive real number. It is necessary to balance the solution - the task execution time on all threads should be the same. So, the integration steps must be dynamic.
+With the help of pthread, it is necessary to make a program that will calculate a definite integral of sin(1/x) function in the limit from a certain positive real number to some larger positive real number. It is necessary to balance the solution - the task execution time on all threads should be the same.
 
 [:arrow_up: Back to contents](#Contents)
 
@@ -33,7 +33,7 @@ The illustration of trapezoidal rule:
 
 ## File description
 
-___definiteIntegral___ is the main file. It creates and joins threads, which calculate the integral. Then it prints the result.
+___definiteIntegral.c___ is the main file. It creates and joins threads, which calculate the integral. Then it prints the result.
 
 ___function.h___ and ___function.c___ contain the function to be integrated. The function can be changed in the function.c file. By default the function is sin(1/x).
 
