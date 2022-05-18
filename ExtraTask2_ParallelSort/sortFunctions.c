@@ -47,3 +47,72 @@ void sortSequential(int *array, size_t arraySize) {
 		}
 	}
 }
+
+void swap(int *a, int *b) {
+    int t;
+    t = *a;
+    *a = *b;
+    *b = t;
+}
+
+void bitonicSeq(int start, int length, int *array, int direction) {
+    int i, split_length;
+
+    if (length == 1)
+        return;
+
+    if (length % 2 != 0 ) {
+        printf("The length must be a power of 2\n");
+        exit(0);
+    }
+
+    split_length = length / 2;
+
+    // bitonic split
+    for (i = start; i < start + split_length; i++) {
+        if (direction == UP) {
+            if (array[i] > array[i + split_length])
+                swap(&array[i], &array[i + split_length]);
+        }
+        else {
+            if (array[i] < array[i + split_length])
+                swap(&array[i], &array[i + split_length]);
+        }
+    }
+
+    bitonicSeq(start, split_length, array, direction);
+    bitonicSeq(start + split_length, split_length, array, direction);
+}
+
+void bitonicPar(int start, int length, int *array, int direction, int subSection) {
+	int i, split_length;
+
+    if (length == 1)
+        return;
+
+    if (length % 2 != 0 ) {
+        printf("The length must be a power of 2\n");
+        exit(0);
+    }
+
+    split_length = length / 2;
+
+    // bitonic split
+#pragma omp parallel for shared(array, direction, start, split_length) private(i)
+    for (i = start; i < start + split_length; i++) {
+        if (direction == UP) {
+            if (array[i] > array[i + split_length])
+                swap(&array[i], &array[i + split_length]);
+        }
+        else {
+            if (array[i] < array[i + split_length])
+                swap(&array[i], &array[i + split_length]);
+        }
+    }
+
+    if (split_length > subSection) {
+        // subSection is the size of sub part-> n/numThreads
+        bitonicPar(start, split_length, array, direction, subSection);
+        bitonicPar(start + split_length, split_length, array, direction, subSection);
+    }
+}
