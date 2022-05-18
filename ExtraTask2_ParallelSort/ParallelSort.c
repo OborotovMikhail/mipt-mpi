@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include"arrayFunctions.h"
+
+#define SUCCESS 0
+#define ERROR_OPEN_PARAMETERS 1
+
 int main(int argc, char **argv) {
   int arraySize, threadsNum; // Array size and the number of threads
 
@@ -16,6 +21,17 @@ int main(int argc, char **argv) {
   }
 
   // Creating an array
+  int* array = (int*) malloc(arraySize * sizeof(int));
+  arrayInit(array, arraySize);
+  arrayShuffle(array, arraySize);
+
+  // Creating an array for the sequential sort
+  int* arraySequential = (int*) malloc(arraySize * sizeof(int));
+  arrayCopy(array, arraySequential, arraySize);
+
+  // Releasing the memory
+  free(array);
+  free(arraySequential);
 
   return 0;
 }
