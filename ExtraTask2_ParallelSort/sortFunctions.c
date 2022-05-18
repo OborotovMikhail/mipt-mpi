@@ -3,10 +3,10 @@
 
 #include"sortFunctions.h"
 
-void mergeUp(int *array, size_t n) {
-	int step = n / 2, i, j, k, temp;
+void mergeUp(int *array, size_t arraySize) {
+	int step = arraySize / 2, i, j, k, temp;
 	while (step > 0) {
-		for (i = 0; i < n; i += step * 2) {
+		for (i = 0; i < arraySize; i += step * 2) {
 			for (j = i, k = 0; k < step; j++, k++) {
 				if (array[j] > array[j+step]) {
 					// Swapping
@@ -20,10 +20,10 @@ void mergeUp(int *array, size_t n) {
 	}
 }
 
-void mergeDown(int *array, size_t n) {
-	int step = n / 2, i, j, k, temp;
+void mergeDown(int *array, size_t arraySize) {
+	int step = arraySize / 2, i, j, k, temp;
 	while (step > 0) {
-		for (i = 0; i < n; i += step * 2) {
+		for (i = 0; i < arraySize; i += step * 2) {
 			for (j = i, k = 0; k < step; j++, k++) {
 				if (array[j] < array[j+step]) {
 					// Swapping
@@ -34,5 +34,16 @@ void mergeDown(int *array, size_t n) {
 			}
 		}
 		step /= 2;
+	}
+}
+
+void sortSequential(int *array, size_t arraySize) {
+	int k, i;
+	for (k = 2; k <= arraySize; k *= 2) {
+		for (i = 0; i < arraySize;) {
+			mergeUp((array + i), k);
+			mergeDown((array + i + k), k);
+			i += k * 2;
+		}
 	}
 }
