@@ -17,6 +17,10 @@ void sortSequential(int *array, size_t arraySize);
 
 void swap(int *a, int *b);
 
-void bitonicSeq(int start, int length, int *seq, int direction);
+void sort(int *array, int length, int direction);
 
-void bitonicPar(int start, int length, int *seq, int direction, int m);
+void bitonicSeqMerge(int start, int BseqSize, int *array, int direction);
+
+void bitonicSeq(int start, int length, int *array, int direction);
+
+void bitonicPar(int start, int length, int *array, int direction, int m);

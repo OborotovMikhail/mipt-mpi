@@ -55,38 +55,60 @@ void swap(int *a, int *b) {
     *b = t;
 }
 
+void bitonicSeqMerge(int start, int BseqSize, int *array, int direction) {
+	if (BseqSize > 1){
+		int k = BseqSize / 2;
+		for (int i = start; i < start + k; i++) {
+			if (direction == (array[i] > array[i+k])) {
+				//swap(&array[i], &array[i+k]);
+				int t = array[i];
+				array[i] = array[i+k];
+				array[i+k] = t;
+			}
+		}
+		
+		bitonicSeqMerge(start, k, array, direction);
+		bitonicSeqMerge(start+k, k, array, direction);
+	}
+}
+
 void bitonicSeq(int start, int length, int *array, int direction) {
-    int i, split_length;
+	if (length > 1) {
+		if (length % 2 != 0 ) {
+        	printf("The length must be a power of 2\n");
+        	exit(13);
+    	}
 
-    if (length == 1)
-        return;
+    	int halfLen = length / 2;
+    	/*
+    	// bitonic split
+    	int i;
+    	for (i = start; i < start + halfLen; i++) {
+    	    if (direction == UP) {
+            if (array[i] > array[i + halfLen])
+                swap(&array[i], &array[i + halfLen]);
+        	}
+        	else {
+        	    if (array[i] < array[i + halfLen])
+                swap(&array[i], &array[i + halfLen]);
+        	}
+        	arrayPrint(array, length); // DEBUG
+    	}
+		*/
+    	bitonicSeq(start, halfLen, array, 1);
+    	bitonicSeq(start + halfLen, halfLen, array, 0);
+    	bitonicSeqMerge(start, halfLen, array, direction);
+	}
 
-    if (length % 2 != 0 ) {
-        printf("The length must be a power of 2\n");
-        exit(0);
-    }
+    
+}
 
-    split_length = length / 2;
-
-    // bitonic split
-    for (i = start; i < start + split_length; i++) {
-        if (direction == UP) {
-            if (array[i] > array[i + split_length])
-                swap(&array[i], &array[i + split_length]);
-        }
-        else {
-            if (array[i] < array[i + split_length])
-                swap(&array[i], &array[i + split_length]);
-        }
-        arrayPrint(array, length); // DEBUG
-    }
-
-    bitonicSeq(start, split_length, array, direction);
-    bitonicSeq(start + split_length, split_length, array, direction);
+void sort(int *array, int length, int direction) {
+	bitonicSeq(0, length, array, direction);
 }
 
 void bitonicPar(int start, int length, int *array, int direction, int subSection) {
-	int i, split_length;
+	int i, halfLen;
 
     if (length == 1)
         return;
@@ -96,24 +118,24 @@ void bitonicPar(int start, int length, int *array, int direction, int subSection
         exit(0);
     }
 
-    split_length = length / 2;
+    halfLen = length / 2;
 
     // bitonic split
-#pragma omp parallel for shared(array, direction, start, split_length) private(i)
-    for (i = start; i < start + split_length; i++) {
+#pragma omp parallel for shared(array, direction, start, halfLen) private(i)
+    for (i = start; i < start + halfLen; i++) {
         if (direction == UP) {
-            if (array[i] > array[i + split_length])
-                swap(&array[i], &array[i + split_length]);
+            if (array[i] > array[i + halfLen])
+                swap(&array[i], &array[i + halfLen]);
         }
         else {
-            if (array[i] < array[i + split_length])
-                swap(&array[i], &array[i + split_length]);
+            if (array[i] < array[i + halfLen])
+                swap(&array[i], &array[i + halfLen]);
         }
     }
 
-    if (split_length > subSection) {
+    if (halfLen > subSection) {
         // subSection is the size of sub part-> n/numThreads
-        bitonicPar(start, split_length, array, direction, subSection);
-        bitonicPar(start + split_length, split_length, array, direction, subSection);
+        bitonicPar(start, halfLen, array, direction, subSection);
+        bitonicPar(start + halfLen, halfLen, array, direction, subSection);
     }
 }

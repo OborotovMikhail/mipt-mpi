@@ -65,7 +65,8 @@ int main(int argc, char **argv) {
 
 	// Sorting sequentially
 	//sortSequential(arraySequential, arraySize);
-	bitonicSeq(0, arraySize, arraySequential, UP);
+	//bitonicSeq(0, arraySize, arraySequential, 1);
+	sort(arraySequential, arraySize, 1);
 
 	// End time
 	clock_gettime(CLOCK_MONOTONIC, &timeEndSeq); // Getting End time
@@ -161,3 +162,47 @@ int main(int argc, char **argv) {
 
 	return SUCCESS;
 }
+
+// ------------------
+/*
+void compAndSwap(int a[], int i, int j, int dir)
+{
+    if (dir==(a[i]>a[j]))
+        swap(a[i],a[j]);
+}
+
+void bitonicMerge(int *a, int low, int cnt, int dir)
+{
+    if (cnt>1)
+    {
+        int k = cnt/2;
+        for (int i=low; i<low+k; i++)
+            compAndSwap(a, i, i+k, dir);
+        bitonicMerge(a, low, k, dir);
+        bitonicMerge(a, low+k, k, dir);
+    }
+}
+
+void bitonicSort(int *a,int low, int cnt, int dir)
+{
+    if (cnt>1)
+    {
+        int k = cnt/2;
+  
+        // sort in ascending order since dir here is 1
+        bitonicSort(a, low, k, 1);
+  
+        // sort in descending order since dir here is 0
+        bitonicSort(a, low+k, k, 0);
+  
+        // Will merge whole sequence in ascending order
+        // since dir=1.
+        bitonicMerge(a,low, cnt, dir);
+    }
+}
+
+void sort(int *a, int N, int up)
+{
+    bitonicSort(a,0, N, up);
+}
+*/
