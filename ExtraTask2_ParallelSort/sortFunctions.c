@@ -78,6 +78,7 @@ void bitonicSeq(int start, int length, int *array, int direction) {
             if (array[i] < array[i + split_length])
                 swap(&array[i], &array[i + split_length]);
         }
+        arrayPrint(array, length); // DEBUG
     }
 
     bitonicSeq(start, split_length, array, direction);

@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
 	/* --------------- SEQUENTIAL SORT --------------- */
 
 	//printf("Sequential start: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
-	//arrayPrint(arraySequential, arraySize); // DEBUG
+	arrayPrint(arraySequential, arraySize); // DEBUG
 
 	// Starting time
 	struct timespec timeStartSeq, timeEndSeq; // Starting and ending time points

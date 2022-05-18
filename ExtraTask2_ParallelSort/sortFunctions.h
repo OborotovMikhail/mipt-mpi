@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <omp.h>
 
+#include "arrayFunctions.h"
+
 #define UP 0
 #define DOWN 1
 
@@ -15,6 +17,6 @@ void sortSequential(int *array, size_t arraySize);
 
 void swap(int *a, int *b);
 
-void bitonicSeq(int start, int length, int *seq, int flag);
+void bitonicSeq(int start, int length, int *seq, int direction);
 
-void bitonicPar(int start, int length, int *seq, int flag, int m);
+void bitonicPar(int start, int length, int *seq, int direction, int m);
