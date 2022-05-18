@@ -8,7 +8,6 @@
 
 #include "arrayFunctions.h"
 #include "sortFunctions.h"
-#include "argStruct.h"
 
 #define SUCCESS 10
 #define ERROR_OPEN_PARAMETERS 11
@@ -81,13 +80,6 @@ int main(int argc, char **argv) {
 	//printf("Concurrent start: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
 	//arrayPrint(array, arraySize); // DEBUG
 
-	// Creating and initializing thread arguments structure
-  	threadArgs arguments[threadsNum];
-  	for (int i = 0; i < threadsNum; i++) {
-		arguments[i].id = i; // Tread id
-		arguments[i].array = array; // Array pointer
-  	}
-
   	// Starting time
 	struct timespec timeStart, timeEnd; // Starting and ending time points
 	double timeElapsed; // Elapsed time variable
@@ -143,8 +135,25 @@ int main(int argc, char **argv) {
 
 	/* --------------- PRINTING RESULTS --------------- */
 	printf("\nRESULTS:\n");
-	printf("Single thread - DONE - Time: %.10f ms\n", timeElapsedSeq);
-	printf("Multi thread  - DONE - Time: %.10f ms\n", timeElapsed);
+	
+	printf("Single thread - ");
+	if (arrayVerify(arraySequential, arraySize)) {
+		printf("SORTED - ");
+	} else {
+		printf("UNSORTED - ");
+	}
+	printf("Time: %.10f ms\n", timeElapsedSeq);
+
+	printf("Multi thread  - ");
+	if (arrayVerify(array, arraySize)) {
+		printf("SORTED - ");
+	} else {
+		printf("UNSORTED - ");
+	}
+	printf("Time: %.10f ms\n", timeElapsed);
+
+	arrayPrint(arraySequential, arraySize); // DEBUG
+	arrayPrint(array, arraySize); // DEBUG
 
 	// Releasing the memory
 	free(array);

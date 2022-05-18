@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Verify that the array is sorted
+int arrayVerify(int *array, size_t n);
+
 // Print the array
 void arrayPrint(int *array, size_t n);
 

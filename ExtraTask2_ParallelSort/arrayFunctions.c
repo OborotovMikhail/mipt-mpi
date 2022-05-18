@@ -3,6 +3,16 @@
 
 #include"arrayFunctions.h"
 
+int arrayVerify(int *array, size_t n) {
+	size_t i;
+	for (i = 0; i < n; i++) {
+		if (array[i] != (i + 1)) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
 void arrayPrint(int *array, size_t n) {
 	size_t i;
 	for (i = 0; i < n; i++) {
