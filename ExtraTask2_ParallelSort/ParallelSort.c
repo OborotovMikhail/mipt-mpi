@@ -32,21 +32,54 @@ int main(int argc, char **argv) {
 	}
 
 	// Creating an array
-	int* array = (int*) malloc(arraySize * sizeof(int));
+	int* array = (int*)malloc(arraySize * sizeof(int));
+	if (array == NULL) {
+        printf("Memory not allocated.\n");
+        exit(0);
+    }
+
+	//printf("DEBUG: %d \n", (int) sizeof(array)); // DEBUG
 	arrayInit(array, arraySize);
 	arrayShuffle(array, arraySize);
+	//printf("DEBUG: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
 
 	// Creating an array for the sequential sort
-	int* arraySequential = (int*) malloc(arraySize * sizeof(int));
+	int* arraySequential = (int*)malloc(arraySize * sizeof(int));
+	if (arraySequential == NULL) {
+        printf("Memory not allocated.\n");
+        exit(0);
+    }
+
 	//arrayCopy(array, arraySequential, arraySize);
 	arrayInit(arraySequential, arraySize);
 	arrayShuffle(arraySequential, arraySize);
 
-	// Thread variables
-	pthread_t threads[threadsNum]; // Thread id array
-	int status; // Status variable
+	/* --------------- SEQUENTIAL SORT --------------- */
+
+	//printf("Sequential start: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
+	//arrayPrint(arraySequential, arraySize); // DEBUG
+
+	// Starting time
+	struct timespec timeStartSeq, timeEndSeq; // Starting and ending time points
+	double timeElapsedSeq; // Elapsed time variable
+	clock_gettime(CLOCK_MONOTONIC, &timeStartSeq); // Getting start time
+
+	// Sorting sequentially
+	//sortSequential(arraySequential, arraySize);
+	bitonicSeq(0, arraySize, arraySequential, UP);
+
+	// End time
+	clock_gettime(CLOCK_MONOTONIC, &timeEndSeq); // Getting End time
+	timeElapsedSeq = (timeEndSeq.tv_sec - timeStartSeq.tv_sec) * 1000; // Converting time
+	timeElapsedSeq += (timeEndSeq.tv_nsec - timeStartSeq.tv_nsec) / 1000000.0; // Converting time
+
+	//printf("Sequential end: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
+	//arrayPrint(arraySequential, arraySize); // DEBUG
 
 	/* --------------- CONCURRENT SORT --------------- */
+	//printf("%d\n", arraySize);
+	//printf("Concurrent start: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
+	//arrayPrint(array, arraySize); // DEBUG
 
 	// Creating and initializing thread arguments structure
   	threadArgs arguments[threadsNum];
@@ -62,12 +95,10 @@ int main(int argc, char **argv) {
 
   	int i, j, direction, id;
 
-    //numThreads =  omp_get_max_threads();
+    threadsNum =  omp_get_max_threads();
 
   	// the size of sub part
     int subSection = arraySize / threadsNum;
-
-    arrayPrint(array, arraySize); // DEBUG
 
     // 1st
     for (i = 2; i <= subSection; i = 2 * i)
@@ -104,34 +135,16 @@ int main(int argc, char **argv) {
 
     // End time
 	clock_gettime(CLOCK_MONOTONIC, &timeEnd); // Getting End time
-	timeElapsed = timeEnd.tv_sec - timeStart.tv_sec; // Converting time
-	timeElapsed += (timeEnd.tv_nsec - timeStart.tv_nsec) / 1000000000.0; // Converting time
+	timeElapsed = (timeEnd.tv_sec - timeStart.tv_sec) * 1000; // Converting time
+	timeElapsed += (timeEnd.tv_nsec - timeStart.tv_nsec) / 1000000.0; // Converting time
 
-    arrayPrint(array, arraySize); // DEBUG
-
-	/* --------------- SEQUENTIAL SORT --------------- */
-
-	arrayPrint(arraySequential, arraySize); // DEBUG
-
-	// Starting time
-	struct timespec timeStartSeq, timeEndSeq; // Starting and ending time points
-	double timeElapsedSeq; // Elapsed time variable
-	clock_gettime(CLOCK_MONOTONIC, &timeStartSeq); // Getting start time
-
-	// Sorting sequentially
-	sortSequential(arraySequential, arraySize);
-
-	// End time
-	clock_gettime(CLOCK_MONOTONIC, &timeEndSeq); // Getting End time
-	timeElapsedSeq = timeEndSeq.tv_sec - timeStartSeq.tv_sec; // Converting time
-	timeElapsedSeq += (timeEndSeq.tv_nsec - timeStartSeq.tv_nsec) / 1000000000.0; // Converting time
-
-	arrayPrint(arraySequential, arraySize); // DEBUG
+	//printf("Concurrent end: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
+    //arrayPrint(array, arraySize); // DEBUG
 
 	/* --------------- PRINTING RESULTS --------------- */
-
-	printf("Multi thread  - DONE - Time: %.10f sec\n", timeElapsed);
-	printf("Single thread - DONE - Time: %.10f sec\n", timeElapsedSeq);
+	printf("\nRESULTS:\n");
+	printf("Single thread - DONE - Time: %.10f ms\n", timeElapsedSeq);
+	printf("Multi thread  - DONE - Time: %.10f ms\n", timeElapsed);
 
 	// Releasing the memory
 	free(array);
