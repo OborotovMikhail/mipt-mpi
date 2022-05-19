@@ -12,12 +12,17 @@
    or DESCENDING; if (a[i] > a[j]) agrees with the direction,
    then a[i] and a[j] are interchanged.*/
 
-void compAndSwap(int a[], int i, int j, int dir)
+void swap(int *a, int *b) {
+    int t;
+    t = *a;
+    *a = *b;
+    *b = t;
+}
+
+void compAndSwap(int *a, int i, int j, int dir)
 {
     if (dir==(a[i]>a[j])) {
-        int t = a[i];
-        a[i] = a[j];
-        a[j] = t;
+        swap(&a[i], &a[j]);
     }
 }
   
@@ -25,7 +30,7 @@ void compAndSwap(int a[], int i, int j, int dir)
   if dir = 1, and in descending order otherwise (means dir=0).
   The sequence to be sorted starts at index position low,
   the parameter cnt is the number of elements to be sorted.*/
-void bitonicMerge(int a[], int low, int cnt, int dir)
+void bitonicMerge(int *a, int low, int cnt, int dir)
 {
     if (cnt>1)
     {
@@ -40,7 +45,7 @@ void bitonicMerge(int a[], int low, int cnt, int dir)
 /* This function first produces a bitonic sequence by recursively
     sorting its two halves in opposite sorting orders, and then
     calls bitonicMerge to make them in the same order */
-void bitonicSort(int a[],int low, int cnt, int dir)
+void bitonicSort(int *a,int low, int cnt, int dir)
 {
     if (cnt>1)
     {
@@ -60,16 +65,34 @@ void bitonicSort(int a[],int low, int cnt, int dir)
   
 /* Caller of bitonicSort for sorting the entire array of
    length N in ASCENDING order */
-void sort(int a[], int N, int up)
+void sort(int *a, int N, int up)
 {
-    bitonicSort(a,0, N, up);
+    bitonicSort(a, 0, N, up);
 }
   
 // Driver code
 int main()
 {
-    int a[]= {3, 7, 4, 8, 6, 2, 1, 5};
-    int N = sizeof(a)/sizeof(a[0]);
+    //int a[]= {3, 7, 4, 8, 6, 2, 1, 5};
+    int N = 8;
+
+    int n = 8;
+    int* a = (int*)malloc(n * sizeof(int));
+
+    for (size_t i = 0; i < n; i++) {
+        a[i] = i + 1;
+    }
+
+    if (n > 1) {
+        size_t i;
+        for (i = 0; i < n - 1; i++) {
+            size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
+            int t = a[j];
+            a[j] = a[i];
+            a[i] = t;
+        }
+    }
+
 
     printf("Unsorted array: \n");
     for (int i=0; i<N; i++)

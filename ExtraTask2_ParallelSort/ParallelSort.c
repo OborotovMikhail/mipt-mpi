@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
                 direction = UP;
             else
                 direction = DOWN;
-            bitonicSeq(j, i, array, direction);
+            bitonicSeq(array, j, i, direction);
         }
     }
 
@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
                 direction = UP;
             else
                 direction = DOWN;
-            bitonicSeq(j * subSection, subSection, array, direction);
+            bitonicSeq(array, j * subSection, subSection, direction);
         }
     }
 
@@ -153,8 +153,8 @@ int main(int argc, char **argv) {
 	}
 	printf("Time: %.10f ms\n", timeElapsed);
 
-	arrayPrint(arraySequential, arraySize); // DEBUG
-	arrayPrint(array, arraySize); // DEBUG
+	//arrayPrint(arraySequential, arraySize); // DEBUG
+	//arrayPrint(array, arraySize); // DEBUG
 
 	// Releasing the memory
 	free(array);

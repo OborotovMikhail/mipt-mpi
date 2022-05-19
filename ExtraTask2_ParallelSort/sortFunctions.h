@@ -19,8 +19,8 @@ void swap(int *a, int *b);
 
 void sort(int *array, int length, int direction);
 
-void bitonicSeqMerge(int start, int BseqSize, int *array, int direction);
+void bitonicSeqMerge(int *array, int start, int BseqSize, int direction);
 
-void bitonicSeq(int start, int length, int *array, int direction);
+void bitonicSeq(int *array, int start, int length, int direction);
 
 void bitonicPar(int start, int length, int *array, int direction, int m);

@@ -55,31 +55,23 @@ void swap(int *a, int *b) {
     *b = t;
 }
 
-void bitonicSeqMerge(int start, int BseqSize, int *array, int direction) {
-	if (BseqSize > 1){
+void bitonicSeqMerge(int *array, int start, int BseqSize, int direction) {
+	if (BseqSize > 1) {
 		int k = BseqSize / 2;
 		for (int i = start; i < start + k; i++) {
 			if (direction == (array[i] > array[i+k])) {
-				//swap(&array[i], &array[i+k]);
-				int t = array[i];
-				array[i] = array[i+k];
-				array[i+k] = t;
+				swap(&array[i], &array[i+k]);
 			}
 		}
 		
-		bitonicSeqMerge(start, k, array, direction);
-		bitonicSeqMerge(start+k, k, array, direction);
+		bitonicSeqMerge(array, start, k, direction);
+		bitonicSeqMerge(array, start+k, k, direction);
 	}
 }
 
-void bitonicSeq(int start, int length, int *array, int direction) {
+void bitonicSeq(int *array, int start, int length, int direction) {
 	if (length > 1) {
-		if (length % 2 != 0 ) {
-        	printf("The length must be a power of 2\n");
-        	exit(13);
-    	}
-
-    	int halfLen = length / 2;
+		int halfLen = length / 2;
     	/*
     	// bitonic split
     	int i;
@@ -95,16 +87,16 @@ void bitonicSeq(int start, int length, int *array, int direction) {
         	arrayPrint(array, length); // DEBUG
     	}
 		*/
-    	bitonicSeq(start, halfLen, array, 1);
-    	bitonicSeq(start + halfLen, halfLen, array, 0);
-    	bitonicSeqMerge(start, halfLen, array, direction);
+    	bitonicSeq(array, start, halfLen, 1);
+    	bitonicSeq(array, start + halfLen, halfLen, 0);
+    	bitonicSeqMerge(array, start, length, direction);
 	}
 
     
 }
 
 void sort(int *array, int length, int direction) {
-	bitonicSeq(0, length, array, direction);
+	bitonicSeq(array, 0, length, direction);
 }
 
 void bitonicPar(int start, int length, int *array, int direction, int subSection) {
