@@ -55,31 +55,20 @@ int main(int argc, char **argv) {
 
 	/* --------------- SEQUENTIAL SORT --------------- */
 
-	//printf("Sequential start: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
-	arrayPrint(arraySequential, arraySize); // DEBUG
-
 	// Starting time
 	struct timespec timeStartSeq, timeEndSeq; // Starting and ending time points
 	double timeElapsedSeq; // Elapsed time variable
 	clock_gettime(CLOCK_MONOTONIC, &timeStartSeq); // Getting start time
 
 	// Sorting sequentially
-	//sortSequential(arraySequential, arraySize);
-	//bitonicSeq(0, arraySize, arraySequential, 1);
-	sort(arraySequential, arraySize, 1);
+	sortSequential(arraySequential, arraySize, 1);
 
 	// End time
 	clock_gettime(CLOCK_MONOTONIC, &timeEndSeq); // Getting End time
 	timeElapsedSeq = (timeEndSeq.tv_sec - timeStartSeq.tv_sec) * 1000; // Converting time
 	timeElapsedSeq += (timeEndSeq.tv_nsec - timeStartSeq.tv_nsec) / 1000000.0; // Converting time
 
-	//printf("Sequential end: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
-	//arrayPrint(arraySequential, arraySize); // DEBUG
-
 	/* --------------- CONCURRENT SORT --------------- */
-	//printf("%d\n", arraySize);
-	//printf("Concurrent start: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
-	//arrayPrint(array, arraySize); // DEBUG
 
   	// Starting time
 	struct timespec timeStart, timeEnd; // Starting and ending time points
@@ -87,8 +76,8 @@ int main(int argc, char **argv) {
 	clock_gettime(CLOCK_MONOTONIC, &timeStart); // Getting start time
 
   	int i, j, direction, id;
-
-    threadsNum =  omp_get_max_threads();
+  	
+    threadsNum =  4;
 
   	// the size of sub part
     int subSection = arraySize / threadsNum;
@@ -103,7 +92,7 @@ int main(int argc, char **argv) {
                 direction = UP;
             else
                 direction = DOWN;
-            bitonicSeq(array, j, i, direction);
+            bitonicSeqSort(array, j, i, direction);
         }
     }
 
@@ -122,7 +111,7 @@ int main(int argc, char **argv) {
                 direction = UP;
             else
                 direction = DOWN;
-            bitonicSeq(array, j * subSection, subSection, direction);
+            bitonicSeqSort(array, j * subSection, subSection, direction);
         }
     }
 
@@ -131,10 +120,10 @@ int main(int argc, char **argv) {
 	timeElapsed = (timeEnd.tv_sec - timeStart.tv_sec) * 1000; // Converting time
 	timeElapsed += (timeEnd.tv_nsec - timeStart.tv_nsec) / 1000000.0; // Converting time
 
-	//printf("Concurrent end: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
-    //arrayPrint(array, arraySize); // DEBUG
-
 	/* --------------- PRINTING RESULTS --------------- */
+
+	arrayPrint(array, arraySize); // DEBUG
+
 	printf("\nRESULTS:\n");
 	
 	printf("Single thread - ");
@@ -154,7 +143,6 @@ int main(int argc, char **argv) {
 	printf("Time: %.10f ms\n", timeElapsed);
 
 	//arrayPrint(arraySequential, arraySize); // DEBUG
-	//arrayPrint(array, arraySize); // DEBUG
 
 	// Releasing the memory
 	free(array);
@@ -162,47 +150,3 @@ int main(int argc, char **argv) {
 
 	return SUCCESS;
 }
-
-// ------------------
-/*
-void compAndSwap(int a[], int i, int j, int dir)
-{
-    if (dir==(a[i]>a[j]))
-        swap(a[i],a[j]);
-}
-
-void bitonicMerge(int *a, int low, int cnt, int dir)
-{
-    if (cnt>1)
-    {
-        int k = cnt/2;
-        for (int i=low; i<low+k; i++)
-            compAndSwap(a, i, i+k, dir);
-        bitonicMerge(a, low, k, dir);
-        bitonicMerge(a, low+k, k, dir);
-    }
-}
-
-void bitonicSort(int *a,int low, int cnt, int dir)
-{
-    if (cnt>1)
-    {
-        int k = cnt/2;
-  
-        // sort in ascending order since dir here is 1
-        bitonicSort(a, low, k, 1);
-  
-        // sort in descending order since dir here is 0
-        bitonicSort(a, low+k, k, 0);
-  
-        // Will merge whole sequence in ascending order
-        // since dir=1.
-        bitonicMerge(a,low, cnt, dir);
-    }
-}
-
-void sort(int *a, int N, int up)
-{
-    bitonicSort(a,0, N, up);
-}
-*/
