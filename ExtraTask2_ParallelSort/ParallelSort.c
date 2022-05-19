@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
 	clock_gettime(CLOCK_MONOTONIC, &timeStartSeq); // Getting start time
 
 	// Sorting sequentially
-	sortSequential(arraySequential, arraySize, 1);
+	//sortSequential(arraySequential, arraySize, 1);
 
 	// End time
 	clock_gettime(CLOCK_MONOTONIC, &timeEndSeq); // Getting End time
@@ -112,6 +112,9 @@ int main(int argc, char **argv) {
     }
 	*/
 
+    printf("before sort\n");
+	arrayPrint(array, arraySize); // DEBUG
+
     sortParallel(arraySequential, arraySize, 1, subSection);
 
     // End time
@@ -121,6 +124,7 @@ int main(int argc, char **argv) {
 
 	/* --------------- PRINTING RESULTS --------------- */
 
+	printf("after sort\n");
 	arrayPrint(array, arraySize); // DEBUG
 
 	printf("\nRESULTS:\n");

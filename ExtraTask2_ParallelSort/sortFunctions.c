@@ -9,6 +9,7 @@ void swap(int *a, int *b) {
     t = *a;
     *a = *b;
     *b = t;
+    printf("swap\n");
 }
 
 void bitonicSeqMerge(int *array, int start, int length, int direction) {
@@ -66,11 +67,11 @@ void* bitonicParSort(void *input) {
 
 	if (args->length > 1) {
 		int halfLen = args->length / 2;
-
-		if (halfLen > args->subSection) {
+		printf("len = %d\n", args->length);
+		if (halfLen >= args->subSection) {
 			pthread_t threads[2]; // Thread id array
-			printf("hi\n");
-			printf("%d\n", args->subSection);
+			//printf("hi\n");
+			//printf("%d %d\n", halfLen, args->subSection);
 
 			// Splitting into 2 threads
 			threadArgs arguments[2];
@@ -79,12 +80,13 @@ void* bitonicParSort(void *input) {
     			arguments[i].array = args->array;
     			arguments[i].start = args->start;
     			arguments[i].length = halfLen;
-    			arguments[i].direction = args->direction;
     			arguments[i].subSection = args->subSection;
   			}
 
   			// Creating threads
+  			arguments[0].direction = 1;
   			int status = pthread_create(&threads[0], NULL, bitonicParSort, (void*) &arguments[0]);
+  			arguments[1].direction = 0;
   			arguments[1].start += halfLen;
   			status = pthread_create(&threads[1], NULL, bitonicParSort, (void*) &arguments[1]);
 
