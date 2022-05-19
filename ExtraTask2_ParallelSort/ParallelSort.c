@@ -12,8 +12,8 @@
 #define SUCCESS 10
 #define ERROR_OPEN_PARAMETERS 11
 
-#define UP 0
-#define DOWN 1
+#define UP 1
+#define DOWN 0
 
 int main(int argc, char **argv) {
 	// Array size and the number of threads
@@ -37,10 +37,8 @@ int main(int argc, char **argv) {
         exit(0);
     }
 
-	//printf("DEBUG: %d \n", (int) sizeof(array)); // DEBUG
 	arrayInit(array, arraySize);
 	arrayShuffle(array, arraySize);
-	//printf("DEBUG: %ld \n", sizeof(array) / sizeof(int)); // DEBUG
 
 	// Creating an array for the sequential sort
 	int* arraySequential = (int*)malloc(arraySize * sizeof(int));
@@ -75,13 +73,11 @@ int main(int argc, char **argv) {
 	double timeElapsed; // Elapsed time variable
 	clock_gettime(CLOCK_MONOTONIC, &timeStart); // Getting start time
 
-  	int i, j, direction, id;
-  	
-    threadsNum =  4;
+  	int i, j, direction;
 
-  	// the size of sub part
     int subSection = arraySize / threadsNum;
 
+    /*
     // 1st
     for (i = 2; i <= subSection; i = 2 * i)
     {
@@ -89,7 +85,7 @@ int main(int argc, char **argv) {
         for (j = 0; j < threadsNum; j += i)
         {
             if ((j / i) % 2 == 0)
-                direction = UP;
+                direction = UP; 
             else
                 direction = DOWN;
             bitonicSeqSort(array, j, i, direction);
@@ -114,6 +110,9 @@ int main(int argc, char **argv) {
             bitonicSeqSort(array, j * subSection, subSection, direction);
         }
     }
+	*/
+
+    sortParallel(arraySequential, arraySize, 1, subSection);
 
     // End time
 	clock_gettime(CLOCK_MONOTONIC, &timeEnd); // Getting End time
