@@ -1,24 +1,23 @@
-# Definite integral (MIPT MPI Lab Work 2)
+# Definite integral (MIPT MPI lab 2)
+
 
 ## Contents
 
-[Main task](#Main-task)
+- [Main task](#main-task)
+- [Calculation method](#calculation-method)
+- [File description](#file-description)
+- [Compile and execute](#compile-and-execute)
+- [Program output](#program-output)
 
-[Compile and execute](#Compile-and-execute)
-
-[Calculation method](#Calculation-method)
-
-[File description](#File-description)
-
-[Program output](#Program-output)
 
 ## Main task
 
 With the help of pthread, it is necessary to make a program that will calculate a definite integral of sin(1/x) function in the limit from a certain positive real number to some larger positive real number. It is necessary to balance the solution - the task execution time on all threads should be the same.
 
-[:arrow_up: Back to contents](#Contents)
+[:arrow_up: Back to contents](#contents)
 
-## Calculation 
+
+## Calculation method
 
 The program calculates the integral using trapezoidal rule. The trapezoidal rule works by approximating the region under the graph of the function f(x) as a trapezoid and calculating its area.
 The formula used in this program is:
@@ -29,7 +28,8 @@ The illustration of trapezoidal rule:
 
 ![alt text](https://github.com/OborotovMikhail/mipt-mpi/blob/master/lab-2-definite-integral/readme-images/trapezoid.png? "The illustration of trapezoidal rule")
 
-[:arrow_up: Back to contents](#Contents)
+[:arrow_up: Back to contents](#contents)
+
 
 ## File description
 
@@ -43,17 +43,19 @@ ___argStruct.h___ contains the stucture that is used to pass arguments to a thre
 
 ___parameters.txt___ is used to set the parameters of the program and the integral. There are 4 parameters: 1) lower integral limit, 2) upped integral limit, 3) number of intervals of calculation, 4) number of threads to be created.
 
-[:arrow_up: Back to contents](#Contents)
+[:arrow_up: Back to contents](#contents)
+
 
 ## Compile and execute
 
 To compile and execute the code use:
 ```
-gcc -pthread definiteIntegral.c integrate.c function.c -lm
+gcc -pthread definite-integral.c integrate.c function.c -lm
 ./a.out
 ```
 
-[:arrow_up: Back to contents](#Contents)
+[:arrow_up: Back to contents](#contents)
+
 
 ## Program output
 
@@ -61,4 +63,4 @@ An example of program output:
 
 ![alt text](https://github.com/OborotovMikhail/mipt-mpi/blob/master/lab-2-definite-integral/readme-images/output.png? "Program output")
 
-[:arrow_up: Back to contents](#Contents)
+[:arrow_up: Back to contents](#contents)

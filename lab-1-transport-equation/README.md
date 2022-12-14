@@ -1,21 +1,26 @@
-# Transport equation (MIPT MPI Lab Work 1)
+# Transport equation (MIPT MPI lab 1)
 
-Main task:
-
-Develop a sequential program and a parallel program (using MPI technology) that numerically solve the transfer equation according to the difference scheme in accordance with the individual variant.
-
-____
 
 ## Contents
 
-[Compile and execute](##Compileandexecute)
-____
+- [Main task](#main-task)
+- [Compile and execute](#compile-and-execute)
+
+
+## Main task
+
+Develop a sequential program and a parallel program (using MPI technology) that numerically solve the transfer equation according to the difference scheme in accordance with the individual variant.
+
+[:arrow_up: Back to contents](#contents)
 
 
 ## Compile and execute
+
 Compile and execute **MPI version (parallel)** of transport equation solver
 ```
-mpicc TransportEquation.c conditions.c calculateMethods.c
+mpicc transport-equation.c conditions.c calculate-methods.c
 mpirun -np 4 ./a.out
-python3 plotData.py 
+python3 plot-data.py 
 ```
+
+[:arrow_up: Back to contents](#contents)
