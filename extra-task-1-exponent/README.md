@@ -1,4 +1,4 @@
-# Parallel sort (MIPT MPI extra task 1)
+# Exponent (MIPT MPI extra task 1)
 
 
 ## Contents
