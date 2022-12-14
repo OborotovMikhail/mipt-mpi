@@ -23,11 +23,11 @@ With the help of pthread, it is necessary to make a program that will calculate 
 The program calculates the integral using trapezoidal rule. The trapezoidal rule works by approximating the region under the graph of the function f(x) as a trapezoid and calculating its area.
 The formula used in this program is:
 
-![alt text](https://github.com/OborotovMikhail/MIPT_MPI/blob/main/Lab2_DefiniteIntegral/imageFormula.png? "The trapezoidal rule formula")
+![alt text](https://github.com/OborotovMikhail/mipt-mpi/blob/master/lab-2-definite-integral/readme-images/formula.png? "The trapezoidal rule formula")
 
 The illustration of trapezoidal rule:
 
-![alt text](https://github.com/OborotovMikhail/MIPT_MPI/blob/main/Lab2_DefiniteIntegral/imageTrapezoid.png? "The illustration of trapezoidal rule")
+![alt text](https://github.com/OborotovMikhail/mipt-mpi/blob/master/lab-2-definite-integral/readme-images/trapezoid.png? "The illustration of trapezoidal rule")
 
 [:arrow_up: Back to contents](#Contents)
 
@@ -59,6 +59,6 @@ gcc -pthread definiteIntegral.c integrate.c function.c -lm
 
 An example of program output:
 
-![alt text](https://github.com/OborotovMikhail/MIPT_MPI/blob/main/Lab2_DefiniteIntegral/imageOutput.png? "Program output")
+![alt text](https://github.com/OborotovMikhail/mipt-mpi/blob/master/lab-2-definite-integral/readme-images/output.png? "Program output")
 
 [:arrow_up: Back to contents](#Contents)
